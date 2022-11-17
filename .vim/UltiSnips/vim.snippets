@@ -1,0 +1,24 @@
+snippet init "function init" iA
+function! coc#source#$1#init() abort
+    return {
+        \ 'shortcut': "$1",
+        \ 'priority': $2,
+        \ 'filetypes': $3,
+        \ 'firstMatch': '$4',
+        \ 'triggerCharacters': ['$5']
+        \}
+endfunction$0
+endsnippet
+
+snippet comp "funtion complete" iA
+function! coc#source#$1#complete(opt, cb) abort
+    let items = [
+    $2
+    \]
+    call a:cb(items)
+endfunction$0
+endsnippet
+
+snippet \\ "item" iA
+\ "$1",
+endsnippet

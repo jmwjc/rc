@@ -1,0 +1,159 @@
+# snippets for markdown
+snippet b "bold" 
+**${1:${VISUAL}}**$0
+endsnippet
+
+snippet i "itailc" 
+*${1:${VISUAL}}*$0
+endsnippet
+
+# snippets for criticmarkup
+snippet add "additions" w
+{++${0:${VISUAL}}++}
+endsnippet
+
+snippet del "deletions" i
+{--${VISUAL}--}
+endsnippet
+
+snippet sub "substitutions" i
+{~~${VISUAL}~>$0~~}
+endsnippet
+
+snippet com "comments with WuJC" w
+{>> @WuJC $0 <<}
+endsnippet
+
+snippet hig "highlights" i
+{==${VISUAL}==}{>> @WuJC $0 <<}
+endsnippet
+
+# snippets for html style
+snippet mark "yellow|lightblue|lightgreen|pink" w
+<mark style="background-color:${1:yellow}">${2:${VISUAL}}</mark>$0
+endsnippet
+
+snippet underline "underline" w
+<u>${1:${VISUAL}}</u>$0
+endsnippet
+
+snippet <> "angle bracket" 
+&lt;${1:${VISUAL}}&gt;$0
+endsnippet
+
+# snippets for Templater plugin of Obsidian
+snippet last_modified_date "last modified date" w
+<%+ tp.file.last_modified_date() %>
+endsnippet
+
+# python functions
+global !p
+def create_matrix(snip):
+	rows = 'x'.join(snip.buffer[snip.line].split("x", 2)[:-1])
+	cols = 'x'.join(snip.buffer[snip.line].split("x", 2)[-1:])
+
+	int_val = lambda string: int(''.join(s for s in string if s.isdigit()))
+
+	rows = int_val(rows)
+	cols = int_val(cols)
+
+	offset = cols + 1
+	old_spacing = snip.buffer[snip.line][:snip.buffer[snip.line].rfind('\t') + 1]
+
+	snip.buffer[snip.line] = ''
+	final_str = old_spacing
+	for i in range(rows):
+		final_str += old_spacing + '\t'
+		final_str += " & ".join(['$' + str(i * cols + j + offset) for j in range(cols)])
+		if i != rows-1:final_str += " \\\\\\\n"
+	snip.expand_anon(final_str)
+endglobal
+
+# snippets for tex equations
+snippet == "equals" iA
+&= $1 \\\\
+endsnippet
+
+snippet ^^ "auto superscript" iA
+^{${1:${VISUAL}}}$0
+endsnippet
+
+snippet __ "auto subscript" iA
+_{${1:${VISUAL}}}$0
+endsnippet
+
+snippet bm "bold math" i
+\bm{${1:${VISUAL}}}$0
+endsnippet
+
+snippet '(\b[^\s]*)\^hat' "hat" wrA
+\hat{`!p snip.rv = match.group(1)`}$0
+endsnippet
+
+snippet '(\b[^\s]*)\^-' "bar" wrA
+\bar{`!p snip.rv = match.group(1)`}$0
+endsnippet
+
+snippet '(\b[^\s]*)\^~' "tilde" wrA
+\tilde{`!p snip.rv = match.group(1)`}$0
+endsnippet
+
+snippet '(\b[^\s]*)\^d1' "dot" wrA
+\dot{`!p snip.rv = match.group(1)`}$0
+endsnippet
+
+snippet '(\b[^\s]*)\^d2' "dot" wrA
+\ddot{`!p snip.rv = match.group(1)`}$0
+endsnippet
+
+snippet ^2 "square" i 
+\sqrt{${VISUAL}}$0
+endsnippet
+
+snippet | "vert" i
+\vert ${1:${VISUAL}} \vert $0
+endsnippet
+
+snippet || "vert" iA
+\Vert ${1:${VISUAL}} \Vert $0
+endsnippet
+
+snippet begin "begin end block" w
+\begin{$1}
+    ${0:${VISUAL}}
+\end{$1}
+endsnippet
+
+snippet // "Fraction" iA
+\\frac{${1:${VISUAL}}}{$2}$0
+endsnippet
+
+snippet '((\d+)|(\d*)(\\)?([A-Za-z]+)((\^|_)(\{\d+\}|\d))*)/' "Fraction" wrA
+\\frac{`!p snip.rv = match.group(1)`}{$1}$0
+endsnippet
+
+priority 1000
+snippet '^.*\)/' "() Fraction" wrA
+`!p
+stripped = match.string[:-1]
+depth = 0
+i = len(stripped) - 1
+while True:
+	if stripped[i] == ')': depth += 1
+	if stripped[i] == '(': depth -= 1
+	if depth == 0: break;
+	i -= 1
+snip.rv = stripped[0:i] + "\\frac{" + stripped[i+1:-1] + "}"
+`{$1}$0
+endsnippet
+
+snippet left_right "left right" w
+\left $1
+${0:${VISUAL}}
+\right $2
+endsnippet
+
+# creat matrix
+pre_expand "create_matrix(snip)"
+snippet "(\d+)x(\d+)" "Generate matrix of *rows* by *columns*" r
+endsnippet
