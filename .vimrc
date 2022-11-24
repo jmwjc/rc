@@ -34,8 +34,8 @@ Plug 'ryanoasis/vim-devicons'
 nnoremap <C-t> :NERDTreeToggle<CR>
 nnoremap <C-f> :NERDTreeFind<CR>
 " Start NERDTree. If a file is specified, move the cursor to its window.
-autocmd StdinReadPre * let s:std_in=1
-autocmd VimEnter * NERDTree | if argc() > 0 || exists("s:std_in") | wincmd p | endif
+" autocmd StdinReadPre * let s:std_in=1
+" autocmd VimEnter * NERDTree | if argc() > 0 || exists("s:std_in") | wincmd p | endif
 
 " floder tree
 " if has('nvim')
@@ -57,6 +57,9 @@ Plug 'nathanaelkane/vim-indent-guides'
 " auto align
 " :Tabularize /<notion><CR>
 Plug 'godlygeek/tabular'
+
+" comment
+Plug 'preservim/nerdcommenter'
 
 " markdown support
 Plug 'plasticboy/vim-markdown'
@@ -162,6 +165,9 @@ Plug 'vim-scripts/YankRing.vim'
 
 " insert bibtex
 " Plug 'lionawurscht/deoplete-biblatex'
+
+" julia-vim
+Plug 'JuliaEditorSupport/julia-vim'
 
 call plug#end()
 
