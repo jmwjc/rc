@@ -59,6 +59,7 @@ Plug 'nathanaelkane/vim-indent-guides'
 Plug 'godlygeek/tabular'
 
 " comment
+" <leader>c<space> |NERDCommenterToggle|
 Plug 'preservim/nerdcommenter'
 
 " markdown support
@@ -154,8 +155,8 @@ Plug 'neoclide/coc.nvim', {'branch': 'release'}
 
 " thesaurus
 " "mthesaur_txt" querys from `mthesaur.txt`. For this backend to work,be sure to download the file from [gutenberg.org](http://www.gutenberg.org/files/3202/files/) and place it under "~/.vim/thesaurus".
-Plug 'ron89/thesaurus_query.vim'
-    let g:tq_enabled_backends = ["paper_md"]
+"Plug 'ron89/thesaurus_query.vim'
+    "let g:tq_enabled_backends = ["paper_md"]
 
 " yank
 " go to the end of the file and press p
@@ -166,8 +167,14 @@ Plug 'vim-scripts/YankRing.vim'
 " insert bibtex
 " Plug 'lionawurscht/deoplete-biblatex'
 
+" unicode
+Plug 'chrisbra/unicode.vim'
+
 " julia-vim
 Plug 'JuliaEditorSupport/julia-vim'
+    let g:latex_to_unicode_file_types = ".*"
+Plug 'jpalardy/vim-slime'
+    let g:slime_target = "kitty"
 
 call plug#end()
 
