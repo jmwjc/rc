@@ -49,6 +49,16 @@ nnoremap <C-f> :NERDTreeFind<CR>
 " fuzzy mode
 "Plug 'Yggdroot/LeaderF', { 'do': ':LeaderfInstallCExtension' }
 
+" tagbar
+Plug 'preservim/tagbar'
+    nmap <F8> :TagbarToggle<CR>
+
+    let g:tagbar_type_julia = {
+            \ 'ctagstype' : 'julia',
+            \ 'kinds'     : [
+                    \ 't:struct', 'f:function', 'm:macro', 'c:const']
+        \ }
+
 " indent line
 Plug 'nathanaelkane/vim-indent-guides'
     let g:indent_guides_enable_on_vim_startup = 1    
@@ -150,6 +160,7 @@ Plug 'dhruvasagar/vim-table-mode'
 "     let g:deoplete#enable_at_startup = 1
 
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
+"Plug 'neoclide/coc.nvim', {'branch': 'master', 'do': 'yarn install --frozen-lockfile'}
   " texlab install by homebrew: brew install texlab
     let g:coc_global_extensions = ['coc-markdownlint', 'coc-texlab', 'coc-snippets', 'coc-json', 'coc-dictionary', 'coc-word', 'coc-emoji']
 
@@ -157,12 +168,6 @@ Plug 'neoclide/coc.nvim', {'branch': 'release'}
 " "mthesaur_txt" querys from `mthesaur.txt`. For this backend to work,be sure to download the file from [gutenberg.org](http://www.gutenberg.org/files/3202/files/) and place it under "~/.vim/thesaurus".
 "Plug 'ron89/thesaurus_query.vim'
     "let g:tq_enabled_backends = ["paper_md"]
-
-" yank
-" go to the end of the file and press p
-" press <C-P> to move backwards through the yankring
-Plug 'vim-scripts/YankRing.vim'
-    let g:yankring_history_dir = '$VIM'
 
 " insert bibtex
 " Plug 'lionawurscht/deoplete-biblatex'
@@ -174,7 +179,13 @@ Plug 'chrisbra/unicode.vim'
 Plug 'JuliaEditorSupport/julia-vim'
     let g:latex_to_unicode_file_types = ".*"
 Plug 'jpalardy/vim-slime'
-    let g:slime_target = "kitty"
+Plug 'mroavi/vim-julia-cell', { 'for': 'julia' }
+    let g:slime_target = 'tmux'
+    let g:slime_default_config = {"socket_name": "default", "target_pane": "{down-of}"}
+    let g:slime_dont_ask_default = 1
+    let g:julia_cell_delimit_cells_by = 'tags'
+    " map <F5> to save and run script
+    nnoremap <F5> :w<CR>:JuliaCellRun<CR>
 
 call plug#end()
 
@@ -236,6 +247,20 @@ let mapleader=','
 
 " Change cursor shape between insert and normal mode in iTerm2.app
 if $TERM_PROGRAM =~ "iTerm"
+let &t_SR = "\<Esc>]50;CursorShape=2\x7"
 let &t_SI = "\<Esc>]50;CursorShape=1\x7" " Vertical bar in insert mode
 let &t_EI = "\<Esc>]50;CursorShape=0\x7" " Block in normal mode
+endif
+
+if $TERM_PROGRAM =~ "guake"
+let &t_SI = "\<Esc>[6 q"
+let &t_SR = "\<Esc>[4 q"
+let &t_EI = "\<Esc>[2 q"
+endif
+
+
+if $TERM_PROGRAM =~ "tmux"
+let &t_SI = "\<Esc>[6 q"
+let &t_SR = "\<Esc>[4 q"
+let &t_EI = "\<Esc>[2 q"
 endif
